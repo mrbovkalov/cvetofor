@@ -17,7 +17,8 @@ class WebViewUtils {
     '.site-header', '.site-footer', '.main-nav', '.breadcrumbs',
     '.ads', '.ad-container', '.social-share', '.social-floating', '.floating-buttons', '.social-icon',
     '.category_description', '.modal_cookie', '.return-to-mainpage-button',
-    '[data-modal="notification-added-to-cart"]'
+    '[data-modal="notification-added-to-cart"]',
+    '#appInstallBanner'
   ];
   
   selectors.forEach(hideElements);
@@ -30,7 +31,7 @@ class WebViewUtils {
     try {
       await controller.runJavaScript(hideScript);
     } catch (e) {
-      print('Ошибка при скрытии UI сайта: $e');
+      print('Ошибка при скрытии: $e');
     }
   }
 
@@ -58,7 +59,6 @@ class WebViewUtils {
   static Future<void> hideSiteCookieBanner(WebViewController controller) async {
     const String hideBannerScript = '''
     (function() {
-      // Скрываем элементы по классам и ID
       const selectors = [
         '.cookie-consent',
         '.cookie-banner',
@@ -66,6 +66,7 @@ class WebViewUtils {
         '#cookie-consent',
         '#cookie-banner',
         '#cookies-banner',
+        '#appInstallBanner', 
         '.gdpr-banner',
         '#gdpr-banner',
         '.js-cookie-consent',
@@ -76,21 +77,21 @@ class WebViewUtils {
         '[class*="cookie"]',
         '[id*="cookie"]',
         '[class*="Cookie"]',
-        '[id*="Cookie"]'
+        '[id*="Cookie"]',
+        '[id*="appInstallBanner"]',
       ];
 
       let hiddenCount = 0;
       selectors.forEach(selector => {
         const elements = document.querySelectorAll(selector);
         elements.forEach(el => {
-          if (el.offsetParent !== null) { // Проверяем, что элемент видим
+          if (el.offsetParent !== null) { 
             el.style.cssText = 'display: none !important; visibility: hidden !important; opacity: 0 !important; height: 0 !important; padding: 0 !important; margin: 0 !important; position: absolute !important;';
             hiddenCount++;
           }
         });
       });
 
-      // Дополнительно ищем по тексту (только для небольших элементов)
       const textSelectors = ['div', 'section', 'aside', 'dialog'];
       textSelectors.forEach(tag => {
         const elements = document.querySelectorAll(tag);
@@ -122,7 +123,6 @@ class WebViewUtils {
           window.closeCookieBanner();
         }
       } catch (e) {
-        // Игнорируем ошибки в функциях
       }
     })();
   ''';
@@ -165,7 +165,7 @@ class WebViewUtils {
               element: cartButton.className
             }));
           } catch (e) {
-            console.log('ℹ️ Не удалось получить детали товара:', e);
+            console.log('Не удалось получить детали товара:', e);
             FlutterCart.postMessage('item_added_basic');
           }
         }

@@ -94,24 +94,20 @@ class CartUtils {
     const cartCounterScript = '''
     function trackCartCounter() {
       function updateCartCount() {
-        // Ищем элемент с количеством товаров в корзине
         const cartCounter = document.querySelector('span.header__control-value');
         
         if (cartCounter) {
           const count = cartCounter.textContent.trim();
           console.log('🛒 Количество товаров в корзине:', count);
           
-          // Отправляем в Flutter
           if (window.FlutterCartCounter) {
             FlutterCartCounter.postMessage(count);
           }
         }
       }
       
-      // Обновляем счетчик при загрузке страницы
       updateCartCount();
-      
-      // Следим за изменениями в DOM (на случай AJAX обновления корзины)
+
       const observer = new MutationObserver(function(mutations) {
         mutations.forEach(function(mutation) {
           if (mutation.type === 'childList' || mutation.type === 'characterData') {
@@ -120,20 +116,17 @@ class CartUtils {
         });
       });
       
-      // Начинаем наблюдение за всем документом
       observer.observe(document.body, {
         childList: true,
         subtree: true,
         characterData: true
       });
       
-      // Также обновляем при кликах (на всякий случай)
       document.addEventListener('click', function() {
         setTimeout(updateCartCount, 500);
       });
     }
     
-    // Запускаем отслеживание
     trackCartCounter();
     console.log('✅ Cart counter tracking activated');
   ''';

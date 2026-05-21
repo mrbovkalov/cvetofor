@@ -103,7 +103,7 @@ class _JumpingIconState extends State<JumpingIcon>
           duration: Duration(milliseconds: 150),
           child: Text(
             _currentText,
-            key: ValueKey<String>(_currentText), // Ключ для анимации
+            key: ValueKey<String>(_currentText),
             style: TextStyle(fontSize: 16, color: Colors.grey[700]),
             textAlign: TextAlign.center,
           ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:cvetofor/core/conts.dart';
 import 'package:cvetofor/shared/error.dart';
 import 'package:cvetofor/core/web-utils.dart';
@@ -141,13 +140,13 @@ class _MainState extends State<Cvetofor> {
           },
 
           onNavigationRequest: (NavigationRequest request) {
-            final url = request.url.toLowerCase();
+            // final url = request.url.toLowerCase();
 
-            if (url.contains('.apk') || url.contains('/download')) {
-              AppMetrica.reportEventWithMap('user_download_click', {
-                'url': request.url,
-              });
-            }
+            // if (url.contains('.apk') || url.contains('/download')) {
+            //   AppMetrica.reportEventWithMap('user_download_click', {
+            //     'url': request.url,
+            //   });
+            // }
 
             return NavigationDecision.navigate;
           },
